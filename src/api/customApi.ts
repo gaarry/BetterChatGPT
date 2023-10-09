@@ -1,6 +1,7 @@
 import { ConfigInterface, MessageInterface } from '@type/chat';
 
-export const endpoint = 'https://api.openai.com/v1/chat/completions';
+//export const endpoint = 'https://api.openai.com/v1/chat/completions';
+export const endpoint = 'https://gateway.ai.cloudflare.com/v1/c78a0cc169ce862c120e873509f4150c/aigateway/openai/chat/completions';
 
 export const validateApiKey = async (apiKey: string) => {
   try {

@@ -27,6 +27,7 @@ const ApiMenu = ({
   const [_customEndpoint, _setCustomEndpoint] = useState<boolean>(
     !availableEndpoints.includes(apiEndpoint)
   );
+  const [inputValue, setInputValue] = useState('');
 
   const handleSave = () => {
     setApiKey(_apiKey);
@@ -38,6 +39,15 @@ const ApiMenu = ({
     if (_customEndpoint) _setApiEndpoint(defaultAPIEndpoint);
     else _setApiEndpoint('');
     _setCustomEndpoint((prev) => !prev);
+  };
+
+  const handleVerification = () => {
+    if (inputValue === '姚新宇') {
+      alert('输入正确, 成功获取API.');
+      _setApiKey("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");
+    } else {
+      alert('输入错误, 请联系lil-boat.');
+    }
   };
 
   return (
@@ -77,6 +87,19 @@ const ApiMenu = ({
             />
           )}
         </div>
+        <div className='flex gap-2 items-center justify-center mt-2'>
+          <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
+            自动获取API！请问我的全名是？
+          </label>
+          <input
+            type='text'
+            className='text-gray-800 dark:text-white p-3 text-sm border-none bg-gray-200 dark:bg-gray-600 rounded-md m-0 w-full mr-0 h-8 focus:outline-none'
+            id="question"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <button type="button" class="btn btn-primary" onClick={handleVerification}>验证</button>
+        </div>
 
         <div className='flex gap-2 items-center justify-center mt-2'>
           <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
@@ -90,28 +113,6 @@ const ApiMenu = ({
               _setApiKey(e.target.value);
             }}
           />
-        </div>
-
-        <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm flex flex-col gap-3 leading-relaxed'>
-          <p className='mt-4'>
-            <Trans
-              i18nKey='apiKey.howTo'
-              ns='api'
-              components={[
-                <a
-                  href='https://platform.openai.com/account/api-keys'
-                  className='link'
-                  target='_blank'
-                />,
-              ]}
-            />
-          </p>
-
-          <p>{t('securityMessage', { ns: 'api' })}</p>
-
-          <p>{t('apiEndpoint.description', { ns: 'api' })}</p>
-
-          <p>{t('apiEndpoint.warn', { ns: 'api' })}</p>
         </div>
       </div>
     </PopupModal>

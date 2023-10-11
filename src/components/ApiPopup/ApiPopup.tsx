@@ -55,38 +55,7 @@ const ApiPopup = () => {
           />
         </div>
 
-        <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm mt-4'>
-          <Trans
-            i18nKey='apiKey.howTo'
-            ns='api'
-            components={[
-              <a
-                href='https://platform.openai.com/account/api-keys'
-                className='link'
-                target='_blank'
-              />,
-            ]}
-          />
-        </div>
-        <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm mt-4'>
-          <Trans
-            i18nKey='advancedConfig'
-            ns='api'
-            components={[
-              <a
-                className='link cursor-pointer'
-                onClick={() => {
-                  setIsModalOpen(false);
-                  document.getElementById('api-menu')?.click();
-                }}
-              />,
-            ]}
-          />
-        </div>
 
-        <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm mt-4'>
-          {t('securityMessage', { ns: 'api' })}
-        </div>
 
         {error.length > 0 && (
           <div className='relative py-2 px-3 w-full mt-3 border rounded-md border-red-500 bg-red-500/10'>

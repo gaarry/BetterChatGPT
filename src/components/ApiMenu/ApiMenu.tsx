@@ -44,7 +44,8 @@ const ApiMenu = ({
   const handleVerification = () => {
     if (inputValue === '姚新宇') {
       alert('输入正确, 成功获取API.');
-      _setApiKey("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");
+      _setApiKey('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');
+      alert(_apiKey);
     } else {
       alert('输入错误, 请联系lil-boat.');
     }
@@ -57,7 +58,7 @@ const ApiMenu = ({
       handleConfirm={handleSave}
     >
       <div className='p-6 border-b border-gray-200 dark:border-gray-600'>
-        <label className='flex gap-2 text-gray-900 dark:text-gray-300 text-sm items-center mb-4'>
+        {/* <label className='flex gap-2 text-gray-900 dark:text-gray-300 text-sm items-center mb-4'>
           <input
             type='checkbox'
             checked={_customEndpoint}
@@ -65,7 +66,7 @@ const ApiMenu = ({
             onChange={handleToggleCustomEndpoint}
           />
           {t('customEndpoint', { ns: 'api' })}
-        </label>
+        </label> */}
 
         <div className='flex gap-2 items-center mb-6'>
           <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
@@ -89,7 +90,7 @@ const ApiMenu = ({
         </div>
         <div className='flex gap-2 items-center justify-center mt-2'>
           <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
-            自动获取API！请问我的全名是？
+            自动获取API！请问作者的全名是姚**？
           </label>
           <input
             type='text'
@@ -98,9 +99,8 @@ const ApiMenu = ({
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
           />
-          <button type="button" class="btn btn-primary" onClick={handleVerification}>验证</button>
+          <button type="button" className='btn flex btn-primary' onClick={handleVerification}>check</button>
         </div>
-
         <div className='flex gap-2 items-center justify-center mt-2'>
           <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
             {t('apiKey.inputLabel', { ns: 'api' })}

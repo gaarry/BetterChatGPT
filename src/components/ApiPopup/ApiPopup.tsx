@@ -12,6 +12,8 @@ const ApiPopup = () => {
   const setApiKey = useStore((state) => state.setApiKey);
   const firstVisit = useStore((state) => state.firstVisit);
   const setFirstVisit = useStore((state) => state.setFirstVisit);
+  const [inputValue, setInputValue] = useState('');
+
 
   const [_apiKey, _setApiKey] = useState<string>(apiKey || '');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(
@@ -32,6 +34,16 @@ const ApiPopup = () => {
   useEffect(() => {
     setFirstVisit(false);
   }, []);
+
+  const handleVerification = () => {
+    if (inputValue === '姚新宇') {
+      alert('输入正确, 成功获取API.');
+      _setApiKey('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');
+      alert(_apiKey);
+    } else {
+      alert('输入错误, 请联系lil-boat.');
+    }
+  };
 
   return isModalOpen ? (
     <PopupModal
@@ -54,7 +66,19 @@ const ApiPopup = () => {
             }}
           />
         </div>
-
+        <div className='flex gap-2 items-center justify-center mt-2'>
+          <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
+          自动获取API！请问作者的全名是姚**？
+          </label>
+          <input
+            type='text'
+            className='text-gray-800 dark:text-white p-3 text-sm border-none bg-gray-200 dark:bg-gray-600 rounded-md m-0 w-full mr-0 h-8 focus:outline-none'
+            id="question"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <button type="button" className='btn btn-primary justify-center' onClick={handleVerification}>check</button>
+        </div>
 
 
         {error.length > 0 && (

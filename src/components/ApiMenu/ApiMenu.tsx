@@ -44,7 +44,7 @@ const ApiMenu = ({
   const handleVerification = () => {
     if (inputValue === '姚新宇') {
       alert('输入正确, 成功获取API.');
-      _setApiKey('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');
+      _setApiKey('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');
       alert(_apiKey);
     } else {
       alert('输入错误, 请联系lil-boat.');

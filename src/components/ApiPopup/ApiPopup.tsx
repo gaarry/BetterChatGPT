@@ -37,13 +37,32 @@ const ApiPopup = () => {
 
   const handleVerification = () => {
     if (inputValue === '姚新宇') {
-      alert('输入正确, 成功获取API.');
-      _setApiKey('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');
-      alert(_apiKey);
+      getKey();
     } else {
       alert('输入错误, 请联系lil-boat.');
     }
   };
+
+  async function getKey() {
+    try {
+      // ⛔️ TypeError: Failed to fetch
+      // 👇️ incorrect or incomplete URL
+      const response = await fetch('https://openaikey.gary-yao.com/');
+  
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+  
+      const result = await response.text();
+      alert('成功获取openai key!');
+      _setApiKey(result);
+
+      return result;
+    } catch (err) {
+      alert('访问失败!');
+      console.log(err);
+    }
+  }  
 
   return isModalOpen ? (
     <PopupModal
@@ -53,6 +72,19 @@ const ApiPopup = () => {
       cancelButton={false}
     >
       <div className='p-6 border-b border-gray-200 dark:border-gray-600'>
+      <div className='flex gap-2 items-center justify-center mt-2'>
+          <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
+          自动获取API！请问作者的全名是姚**？
+          </label>
+          <input
+            type='text'
+            className='text-gray-800 dark:text-white p-3 text-sm border-none bg-gray-200 dark:bg-gray-600 rounded-md m-0 w-full mr-0 h-8 focus:outline-none'
+            id="question"
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+          />
+          <button type="button" className='btn btn-primary justify-center' onClick={handleVerification}>check</button>
+        </div>
         <div className='flex gap-2 items-center justify-center mt-2'>
           <div className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
             {t('apiKey.inputLabel', { ns: 'api' })}
@@ -66,19 +98,7 @@ const ApiPopup = () => {
             }}
           />
         </div>
-        <div className='flex gap-2 items-center justify-center mt-2'>
-          <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
-          自动获取API！请问作者的全名是姚**？
-          </label>
-          <input
-            type='text'
-            className='text-gray-800 dark:text-white p-3 text-sm border-none bg-gray-200 dark:bg-gray-600 rounded-md m-0 w-full mr-0 h-8 focus:outline-none'
-            id="question"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-          />
-          <button type="button" className='btn btn-primary justify-center' onClick={handleVerification}>check</button>
-        </div>
+
 
 
         {error.length > 0 && (

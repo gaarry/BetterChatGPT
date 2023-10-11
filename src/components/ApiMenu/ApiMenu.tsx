@@ -41,15 +41,34 @@ const ApiMenu = ({
     _setCustomEndpoint((prev) => !prev);
   };
 
-  const handleVerification = () => {
+  const handleVerification = async () => {
     if (inputValue === '姚新宇') {
-      alert('输入正确, 成功获取API.');
-      _setApiKey('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');
-      alert(_apiKey);
+      getKey();
     } else {
       alert('输入错误, 请联系lil-boat.');
     }
   };
+
+  async function getKey() {
+    try {
+      // ⛔️ TypeError: Failed to fetch
+      // 👇️ incorrect or incomplete URL
+      const response = await fetch('https://openaikey.gary-yao.com/');
+  
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+  
+      const result = await response.text();
+      alert('成功获取openai key!');
+      _setApiKey(result);
+
+      return result;
+    } catch (err) {
+      alert('访问失败!');
+      console.log(err);
+    }
+  }  
 
   return (
     <PopupModal

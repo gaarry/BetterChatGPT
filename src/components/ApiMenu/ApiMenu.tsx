@@ -16,7 +16,6 @@ const ApiMenu = ({
   setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
   const { t } = useTranslation(['main', 'api']);
-
   const apiKey = useStore((state) => state.apiKey);
   const setApiKey = useStore((state) => state.setApiKey);
   const apiEndpoint = useStore((state) => state.apiEndpoint);
@@ -28,6 +27,11 @@ const ApiMenu = ({
     !availableEndpoints.includes(apiEndpoint)
   );
   const [inputValue, setInputValue] = useState('');
+  const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
+  const [showQuestion, setShowQuestion] = useState(false);
+
+
 
   const handleSave = () => {
     setApiKey(_apiKey);
@@ -42,7 +46,7 @@ const ApiMenu = ({
   };
 
   const handleVerification = async () => {
-    if (inputValue === '姚新宇') {
+    if (inputValue === answer) {
       getKey();
     } else {
       alert('输入错误, 请联系lil-boat.');
@@ -53,22 +57,47 @@ const ApiMenu = ({
     try {
       // ⛔️ TypeError: Failed to fetch
       // 👇️ incorrect or incomplete URL
-      const response = await fetch('https://openaikey.gary-yao.com/');
-  
+      //const response = await fetch('https://worker-sweet-dawn-a239.garyyao18.workers.dev/');
+      //const response = await fetch('https://worker-dawn-mud-a161.garyyao18.workers.dev/getKey');
+      const response = await fetch('https://openaikey.gary-yao.com/getKey');
       if (!response.ok) {
         throw new Error(`Error! status: ${response.status}`);
       }
   
       const result = await response.text();
-      alert('成功获取openai key!');
+      alert('acquire openai key successfully.');
       _setApiKey(result);
+      setShowQuestion(false);
+      return result;
+    } catch (err) {
+      alert('访问失败!');
+      console.log(err);
+    }
+  }
+
+  async function getQuest() {
+    try {
+      // ⛔️ TypeError: Failed to fetch
+      // 👇️ incorrect or incomplete URL
+      //const response = await fetch('https://worker-sweet-dawn-a239.garyyao18.workers.dev/');
+      //const response = await fetch('https://worker-dawn-mud-a161.garyyao18.workers.dev/getQuest');
+      const response = await fetch('https://openaikey.gary-yao.com/getQuest');
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+  
+      const result = await response.json();
+      alert('问题获取成功');
+      setQuestion(result.question);
+      setAnswer(result.answer);
+      setShowQuestion(true);
 
       return result;
     } catch (err) {
       alert('访问失败!');
       console.log(err);
     }
-  }  
+  }
 
   return (
     <PopupModal
@@ -109,7 +138,13 @@ const ApiMenu = ({
         </div>
         <div className='flex gap-2 items-center justify-center mt-2'>
           <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
-            自动获取API！请问作者的全名是姚**？
+            自动获取API?
+          </label>
+          <button type="button" className='btn flex btn-primary' onClick={getQuest}>获取问题</button>
+        </div>
+        <div className={`flex gap-2 items-center justify-center mt-2 ${showQuestion ? '' : 'hidden'}`}>
+          <label htmlFor="question" className='min-w-fit text-gray-900 dark:text-gray-300 text-sm'>
+            {question}
           </label>
           <input
             type='text'
